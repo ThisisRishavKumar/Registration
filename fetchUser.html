@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Registered Users</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table, th, td {
+      border: 1px solid black;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Registered Users</h1>
+  <table id="usersTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Gender</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- User data will be populated here -->
+    </tbody>
+  </table>
+
+  <script>
+    // Function to fetch and display registered users
+    function fetchUsers() {
+      // Replace with your actual API endpoint if needed
+      axios.get('http://localhost:3000/getdata')
+        .then(response => {
+          const users = response.data.users;
+          console.log(users);
+          const usersTableBody = document.querySelector('#usersTable tbody');
+
+          // Loop through the users and add them to the table
+          users.forEach(user => {
+            const row = document.createElement('tr');
+
+            const cellName = document.createElement('td');
+            cellName.textContent = user.name;
+            row.appendChild(cellName);
+
+            const cellEmail = document.createElement('td');
+            cellEmail.textContent = user.Email;
+            row.appendChild(cellEmail);
+
+            const cellPhone = document.createElement('td');
+            cellPhone.textContent = user.Mobileno;
+            row.appendChild(cellPhone);
+
+            const cellGender = document.createElement('td');
+            cellGender.textContent = user.gender;
+            row.appendChild(cellGender);
+
+            usersTableBody.appendChild(row);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching users:', error);
+        });
+    }
+
+    // Fetch the users when the page loads
+    window.onload = fetchUsers;
+  </script>
+</body>
+</html>
